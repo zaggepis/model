@@ -454,6 +454,7 @@ def train_loop(
     performance_summary_exporter=None,
     num_steps_per_iteration=NUM_STEPS_PER_ITERATION,
     **kwargs):
+    checkpoint_every_n=100
   """Trains a model using eager + functions.
 
   This method:
@@ -1022,6 +1023,7 @@ import regex as re
 import glob
 def natural_sort(l): 
     convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    print(convert)
     alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
     return sorted(l, key = alphanum_key)
 
