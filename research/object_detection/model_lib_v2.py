@@ -1018,6 +1018,12 @@ def eager_eval_loop(
     tf.logging.info('\t+ %s: %f', k, eval_metrics[k])
   return eval_metrics
 
+import regex as re
+import glob
+def natural_sort(l): 
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(l, key = alphanum_key)
 
 def eval_continuously(
     pipeline_config_path,
@@ -1132,14 +1138,7 @@ def eval_continuously(
   optimizer, _ = optimizer_builder.build(
       configs['train_config'].optimizer, global_step=global_step)
 
-import regex as re
-import glob
-def natural_sort(l): 
-  convert = lambda text: int(text) if text.isdigit() else text.lower() 
-  alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
-  return sorted(l, key = alphanum_key)
-  for latest_checkpoint in natural_sort(
-      list(set(map(lambda n: n[:n.index(".")], glob.glob(f"{checkpoint_dir}/ckpt-*.*"))))):
+  for latest_checkpoint in natural_sort(list(set(map(lambda n: n[:n.index(".")], glob.glob(f"{checkpoint_dir}/ckpt-*.*"))))):
     ckpt = tf.compat.v2.train.Checkpoint(
         step=global_step, model=detection_model, optimizer=optimizer)
 
