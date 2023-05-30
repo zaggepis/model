@@ -454,7 +454,7 @@ def train_loop(
     performance_summary_exporter=None,
     num_steps_per_iteration=NUM_STEPS_PER_ITERATION,
     **kwargs):
-    checkpoint_every_n=100
+
   """Trains a model using eager + functions.
 
   This method:
@@ -495,6 +495,7 @@ def train_loop(
     **kwargs: Additional keyword arguments for configuration override.
   """
   ## Parse the configs
+  checkpoint_every_n=100
   get_configs_from_pipeline_file = MODEL_BUILD_UTIL_MAP[
       'get_configs_from_pipeline_file']
   merge_external_params_with_configs = MODEL_BUILD_UTIL_MAP[
